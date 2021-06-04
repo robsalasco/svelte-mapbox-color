@@ -4,7 +4,6 @@
 
   const lightStyle = "mapbox://styles/robsalasco/ckphuacg002mz18pkga2rktq2?optimize=true";
 
-  let container;
   let map;
 
   setContext(key, {
@@ -13,7 +12,7 @@
   
   onMount(() => {
     map = new mapboxgl.Map({
-      container: container,
+      container: 'map',
       style: lightStyle,
       zoom: 14,
       center: [-70.648956, -33.450349],
@@ -30,7 +29,7 @@
   />
 </svelte:head>
 
-<div bind:this={container} id="map">
+<div id="map">
 	{#if map}
 		<slot></slot>
 	{/if}
