@@ -1,37 +1,26 @@
 <script>
-  import mapboxgl from "mapbox-gl";
   import { onMount, setContext } from "svelte";
-  import { mapBoxKey } from "./config.js";
+	import { mapboxgl, key } from './config.js';
 
   const lightStyle = "mapbox://styles/robsalasco/ckphuacg002mz18pkga2rktq2?optimize=true";
 
+  let container;
   let map;
-  export let roadcolor;
 
+  setContext(key, {
+    getMap: () => map,
+  });
+  
   onMount(() => {
-    mapboxgl.accessToken = mapBoxKey;
     map = new mapboxgl.Map({
-      container: "map",
+      container: container,
       style: lightStyle,
       zoom: 14,
       center: [-70.648956, -33.450349],
     });
 
-    map.on("load", function () {
-      map.setPaintProperty('road-primary','line-color', roadcolor)
-      map.setPaintProperty('road-street','line-color', roadcolor)
-      map.setPaintProperty('road-street-low','line-color', roadcolor)
-      map.setPaintProperty('road-minor','line-color', roadcolor)
-      map.setPaintProperty('road-minor-low','line-color', roadcolor)
-      map.setPaintProperty('road-secondary-tertiary','line-color', roadcolor)
-      map.setPaintProperty('road-major-link','line-color', roadcolor)
-
-    });
   });
 
-  setContext("mapBoxKey", {
-    getMap: () => map,
-  });
 </script>
 
 <svelte:head>
@@ -41,7 +30,11 @@
   />
 </svelte:head>
 
-<div id="map" />
+<div bind:this={container} id="map">
+	{#if map}
+		<slot></slot>
+	{/if}
+</div>
 
 <style>
   #map {
