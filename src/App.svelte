@@ -1,6 +1,6 @@
 <script>
   import Mapbox from "./Mapbox.svelte";
-  import Color from "./Color.svelte";
+  import ColorChanger from "./ColorChanger.svelte";
   import Layout from './Layout.svelte';
   import {HsvPicker} from 'svelte-color-picker';
 
@@ -25,13 +25,12 @@
 <Layout>
   <span slot="left">
   <HsvPicker on:colorChange={colorCallback} startColor={selected}/>
-  {selected}
   </span>
   <span slot="right">
       <Mapbox>
         {#if mounted}
 
-        <Color roadcolor={selected} />
+        <ColorChanger roadcolor={selected} />
             {/if}
       </Mapbox>
       
