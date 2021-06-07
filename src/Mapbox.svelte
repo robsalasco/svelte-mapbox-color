@@ -4,15 +4,25 @@
 
   const lightStyle = "mapbox://styles/robsalasco/ckphuacg002mz18pkga2rktq2?optimize=true";
 
-  let map;
+  export let map = null
 
   setContext(key, {
     getMap: () => map,
   });
   
+  let container;
+
+  export function flyTo () {
+    map.flyTo({
+    center: [75, 75],
+    zoom: 9,
+    bearing: 0
+  });
+  }
+
   onMount(() => {
     map = new mapboxgl.Map({
-      container: 'map',
+      container: container,
       style: lightStyle,
       zoom: 14,
       center: [-70.648956, -33.450349],
@@ -29,14 +39,14 @@
   />
 </svelte:head>
 
-<div id="map">
+<div bind:this={container}>
 	{#if map}
 		<slot></slot>
 	{/if}
 </div>
 
 <style>
-  #map {
+  div {
     height: 700px;
   }
 </style>

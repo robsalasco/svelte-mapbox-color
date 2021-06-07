@@ -1,39 +1,46 @@
 <script>
   import Mapbox from "./Mapbox.svelte";
-  import ColorChanger from "./ColorChanger.svelte";
   import Layout from './Layout.svelte';
-  import {HsvPicker} from 'svelte-color-picker';
+  import ColorChanger from "./ColorChanger.svelte";
 
+  // https://stackoverflow.com/questions/1484506/random-color-generator
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  let mapComponent; 
   let selected = "#bd0026";
   let mounted = true;
 
-  function colorCallback(rgb) {
-    let r = rgb.detail.r;
-		let g = rgb.detail.g;
-		let b = rgb.detail.b;
-    selected = `rgb(${r},${g},${b})`;
+  function randomColor() {
+    selected = getRandomColor();
   }
 
   $: { reMountMap( selected ) }
-    function reMountMap(){
-      mounted = false;
-      setTimeout(() => mounted = true, 0);
-    }
+  
+  function reMountMap(){
+    mounted = false;
+    setTimeout(() => mounted = true, 0);
+  }
 
 </script>
 
 <Layout>
   <span slot="left">
-  <HsvPicker on:colorChange={colorCallback} startColor={selected}/>
+  <button on:click={mapComponent.flyTo()}>Fly</button>
+  <button on:click={randomColor}>Random road color</button>
+
   </span>
   <span slot="right">
-      <Mapbox>
-        {#if mounted}
-
-        <ColorChanger roadcolor={selected} />
-            {/if}
+      <Mapbox bind:this={mapComponent}>
+      {#if mounted}
+      <ColorChanger roadcolor={selected} />
+      {/if}
       </Mapbox>
-      
-
   </span>
 </Layout>
