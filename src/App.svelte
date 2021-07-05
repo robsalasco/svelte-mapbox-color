@@ -2,6 +2,8 @@
   import Mapbox from "./Mapbox.svelte";
   import Layout from './Layout.svelte';
   import ColorChanger from "./ColorChanger.svelte";
+  import ChromaPicker from 'svelte-chroma-picker';
+
 
   // https://stackoverflow.com/questions/1484506/random-color-generator
   function getRandomColor() {
@@ -14,12 +16,23 @@
   }
 
   let mapComponent; 
-  let selected = "#bd0026";
+  let selected;
   let mounted = true;
+  let rgb
 
   function randomColor() {
     selected = getRandomColor();
   }
+
+  const handleColorUpdate = ev => {
+    rgb = ev.detail.rgb;
+
+    let r = rgb.r;
+    let g = rgb.g;
+    let b = rgb.b;
+
+    selected = `rgb(${r},${g},${b})`;
+  };
 
   $: { reMountMap( selected ) }
   
@@ -34,7 +47,7 @@
   <span slot="left">
   <button on:click={mapComponent.flyTo()}>Fly</button>
   <button on:click={randomColor}>Random road color</button>
-
+  <ChromaPicker bind:selected  on:update={handleColorUpdate} />
   </span>
   <span slot="right">
       <Mapbox bind:this={mapComponent}>

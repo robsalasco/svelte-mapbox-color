@@ -19,11 +19,14 @@
   },
   "dependencies": {
     "@beyonk/async-script-loader": "^2.0.0",
+    "@turf/turf": "^6.3.0",
     "mapbox-gl": "^1.13.1",
     "sirv-cli": "^1.0.0",
+    "svelte-chroma-picker": "^1.1.1",
     "svelte-color-picker": "^1.0.7",
     "svelte-mapbox-gl": "^0.2.0",
     "topojson-client": "^3.1.0",
+    "topojson-server": "^3.0.1",
     "topojson-simplify": "^3.0.3"
   }
 }
